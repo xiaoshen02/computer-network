@@ -4,8 +4,11 @@ serverName = 'localhost'
 serverPort = 5201
 
 clientSocket = socket(AF_INET, SOCK_DGRAM)
-message=input('Input lowercase sentence: ')
-clientSocket.sendto(message.encode(),(serverName,serverPort))
+with open("message.txt", "rb") as f:
+    message = f.read(2000)
+
+print(len(message))
+clientSocket.sendto(message, (serverName, serverPort))
 modifiedMessage, serverAddress=clientSocket.recvfrom(2048)
 print(modifiedMessage.decode())
 clientSocket.close()
