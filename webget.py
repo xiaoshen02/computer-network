@@ -27,11 +27,15 @@ request = (
 
 s.sendall(request.encode())
 data=b""
-while True:#循环接收数据
+count=0
+while True:
     message=s.recv(1024)
-    if not message:#没接收到字节说明服务端已经关闭连接
+    count+=1
+    print("第", count, "次接收数据", len(message), "字节")
+    if not message:#没收到数据说明连接关闭
         break
     data+=message
+print("recv总调用次数：",count)
 s.close()
 headers,body=data.split(b"\r\n\r\n",1)#以空行为依据分离响应头和响应体
 lines=headers.split(b"\r\n")#以换行符为依据分离响应头的每一行
